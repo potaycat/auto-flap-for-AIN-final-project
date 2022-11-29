@@ -1,0 +1,10 @@
+# tensorflow-macos
+# tensorflow-metal
+torch
+# torchvision
+# torchaudio
+
+pygad
+
+gym
+flappy-bird-gym
