@@ -1,22 +1,14 @@
 import time
-import gym
 import numpy as np
 import pygad.torchga
 import pygad
 import torch
 import torch.nn as nn
 from multiprocessing import Pool
-
-
-def get_gym():
-    import flappy_bird_gym
-    # env = gym.make("CartPole-v1")
-    env = flappy_bird_gym.make("FlappyBird-v0")
-    return env
-
+import get_gym
 
 STATE_DICT_PATH = './FlappyBird-v0.pth'
-env = get_gym()
+env = get_gym.make()
 
 observation_space_size = env.observation_space.shape[0]
 action_space_size = env.action_space.n
