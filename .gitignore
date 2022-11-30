@@ -1,4 +1,4 @@
 
 venv/
-saved_model/
+output/
 __pycache__/
