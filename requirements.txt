@@ -1,5 +1,5 @@
 torch
 pygad
-# gym[all] # v0.26.0 is horribly breaking
-flappy-bird-gym # installs gym v0.18.0
-# git+https://github.com/Platun0v/snake-gym.git
+# gym[all] # 0.26.0 is horribly breaking
+flappy-bird-gym # gym==0.18.0
+git+https://github.com/potaycat/snake-gym.git

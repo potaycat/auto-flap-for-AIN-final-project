@@ -20,7 +20,7 @@ def fitness_func(solution, sol_idx):
     observation = env.reset()
     sum_reward = 0
     done = False
-    while (not done) and (-100 < sum_reward < 1000):
+    while (not done) and (-100 < sum_reward < 2000):
         # env.render()
         ob_tensor = torch.tensor(observation.copy(), dtype=torch.float)
         q_values = model(ob_tensor)
@@ -49,6 +49,7 @@ class PooledGA(pygad.GA):
 
 
 env = get_gym.make()
+STATE_DICT_PATH = f"./saved_models/{env.unwrapped.spec.id}.pth"
 observation_space_size = env.observation_space.shape[0]
 action_space_size = env.action_space.n
 
@@ -56,12 +57,12 @@ torch.set_grad_enabled(False)
 
 model = nn.Sequential(
     nn.Linear(observation_space_size, 16),
-    nn.Sigmoid(),
+    nn.ReLU(),
     nn.Linear(16, 16),
-    nn.Sigmoid(),
+    nn.ReLU(),
     nn.Linear(16, action_space_size),
 )
-
+# model.load_state_dict(torch.load(STATE_DICT_PATH)) # resume training
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -70,7 +71,7 @@ if __name__ == "__main__":
 
     # https://pygad.readthedocs.io/en/latest/README_pygad_ReadTheDocs.html#pygad-ga-class
     parameters = {
-        "num_generations": 7000,
+        "num_generations": 200,
         "num_parents_mating": 50,
         "initial_population": torch_ga.population_weights,
         "fitness_func": fitness_func,
@@ -83,7 +84,7 @@ if __name__ == "__main__":
     }
     # ga_instance = pygad.GA(**parameters)
     ga_instance = PooledGA(**parameters)
-    with Pool(processes=10) as pool:
+    with Pool(processes=50) as pool:
         ga_instance.pool = pool
         ga_instance.run()
         solution, solution_fitness, solution_idx = ga_instance.best_solution()
@@ -96,7 +97,7 @@ if __name__ == "__main__":
         model=model, weights_vector=solution
     )
     model.load_state_dict(model_weights_dict)
-    torch.save(model.state_dict(), f"./output/{env.unwrapped.spec.id}.pth")
+    torch.save(model.state_dict(), STATE_DICT_PATH)
 
     # After the generations complete, some plots are showed that summarize how the outputs/fitness values evolve over generations.
     ga_instance.plot_fitness(
