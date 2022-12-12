@@ -1,5 +1,5 @@
 torch
 pygad
 # gym[all] # 0.26.0 is horribly breaking
-flappy-bird-gym # gym==0.18.0
+flappy-bird-gym # gym~=0.18.0
 git+https://github.com/potaycat/snake-gym.git
