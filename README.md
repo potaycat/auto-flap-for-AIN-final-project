@@ -8,10 +8,15 @@ Using a small dense NN. Tested gyms with good results are:
 
 ## Setup
 
+*Using virtualenv is recomended*
 ```sh
 python -m venv venv
 ./venv/bin/activate
-pip install -r requirements.txt
+```
+
+Install dependancies
+```sh
+pip install --force-reinstall -r requirements.txt
 ```
 
 To train the model:

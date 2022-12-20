@@ -19,7 +19,7 @@ def fitness_func(solution, sol_idx):
     observation = env.reset()
     sum_reward = 0
     done = False
-    while (not done) and (-100 < sum_reward < 10000):
+    while (not done) and (-100 < sum_reward < 100000):
         # env.render()
         ob_tensor = torch.tensor(observation.copy(), dtype=torch.float)
         q_values = model(ob_tensor)
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     # https://pygad.readthedocs.io/en/latest/README_pygad_ReadTheDocs.html#pygad-ga-class
     parameters = {
-        "num_generations": 600,
+        "num_generations": 200,
         "num_parents_mating": 50,
         "initial_population": torch_ga.population_weights,
         "fitness_func": fitness_func,

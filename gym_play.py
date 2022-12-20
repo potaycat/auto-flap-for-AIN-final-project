@@ -12,8 +12,7 @@ model.load_state_dict(torch.load(STATE_DICT_PATH))
 with torch.no_grad():
     observation = env.reset()
     sum_reward = 0
-    done = False
-    while not done:
+    while 1:
         env.render()
         ob_tensor = torch.tensor(observation.copy(), dtype=torch.float)
         q_values = model(ob_tensor)
@@ -21,7 +20,11 @@ with torch.no_grad():
 
         observation, reward, done, info = env.step(action)
         sum_reward += reward
-        time.sleep(1 / 30)
+        # time.sleep(1 / 30)
 
-
-print("Sum reward: " + str(sum_reward))
+        if done:
+            print("Sum reward: " + str(sum_reward))
+            observation = env.reset()
+            sum_reward = 0
+            time.sleep(1)
+            # break
